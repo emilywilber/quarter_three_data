@@ -27,7 +27,19 @@ WHITE = (255, 255, 255)
 BLUE = (75, 200, 255)
 YELLOW = (255, 255, 175)
 
-def draw_cloud(x, y):
+# Make clouds
+num_clouds = 20
+clouds = []
+for i in range(num_clouds):
+    x = random.randrange(0, 1600)
+    y = random.randrange(-50, 200)
+    loc = [x, y]
+    clouds.append(loc)
+
+def draw_cloud(loc):
+    x = loc[0]
+    y = loc[1]
+    
     pygame.draw.ellipse(screen, WHITE, [x, y + 20, 40 , 40])
     pygame.draw.ellipse(screen, WHITE, [x + 60, y + 20, 40 , 40])
     pygame.draw.ellipse(screen, WHITE, [x + 20, y + 10, 25, 25])
@@ -45,7 +57,12 @@ while not done:
             done = True     
 
     # Game logic
+    for c in clouds:
+        c[0] -= 2
 
+        if c[0] < -100:
+           c[0] = random.randrange(800, 1600)
+           c[1] = random.randrange(-50, 200)
              
     # Drawing code
     ''' sky '''
@@ -55,11 +72,8 @@ while not done:
     pygame.draw.ellipse(screen, YELLOW, [575, 75, 100, 100])
 
     ''' clouds '''
-    draw_cloud(50, 150)
-    draw_cloud(250, 75)
-    draw_cloud(350, 125)
-    draw_cloud(450, 175)
-    draw_cloud(650, 100)
+    for c in clouds:
+        draw_cloud(c)
 
     ''' grass '''
     pygame.draw.rect(screen, GREEN, [0, 400, 800, 200])
